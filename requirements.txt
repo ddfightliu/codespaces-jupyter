@@ -1,7 +1,7 @@
-ipywidgets==7.7.1
+ipywidgets
 matplotlib
 numpy
 pandas
 torch
-torchvision==0.13.1
-tqdm==4.64.0
+torchvision
+tqdm
