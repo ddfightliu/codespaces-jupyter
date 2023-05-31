@@ -3,3 +3,5 @@ notebooks/cifar_net.pth
 .ipynb_checkpoints/
 .venv/
 media/
+dataset/
+.*/
