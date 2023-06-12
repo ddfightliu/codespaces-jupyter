@@ -1,11 +1,15 @@
 {
-	"folders": [
-		{
-			"path": ".."
-		}
-	],
-	"settings": {
-		"svg.preview.background": "transparent",
-		"workbench.view.alwaysShowHeaderActions": true
-	}
+  "folders": [
+    {
+      "path": ".."
+    }
+  ],
+  "settings": {
+    "svg.preview.background": "transparent",
+    "workbench.view.alwaysShowHeaderActions": true,
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
+  }
 }

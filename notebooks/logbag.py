@@ -105,7 +105,7 @@ def logsplot(df, columns=None, space=0.05, show=1):
 
 def tftrain(
     train_x, train_y,
-    layers=None, batch=64, epochs=100,verbose=0,
+    layers=None, batch=64, epochs=100, verbose=0,
     test_x=None, test_y=None,
     file=None
 ):
@@ -142,11 +142,11 @@ def tftrain(
         initial_epoch=0,
         verbose=verbose
     )
-    if isinstance(test_x ,type(None)) or isinstance(test_y ,type(None)):
+    if isinstance(test_x, type(None)) or isinstance(test_y, type(None)):
         pass
     else:
         score = model.evaluate(test_x, test_y, verbose=1)
-        display('test score : ',score)
+        display('test score : ', score)
     if file != None:
         model.save(filepath=file)
     return model
@@ -157,9 +157,8 @@ display(fl[3])
 
 ################# 单井算法 69-33 ########################
 df_694k = lasdf(fl[3], [1830, 1960])
-model_6933=tftrain(
-    train_x=
-)
+model_6933 = tftrain(
+    train_x=)
 ################# 邻井算法 694k 6916h ########################
 '''
 df_694k = lasdf(fl[4], [1830, 1960])
