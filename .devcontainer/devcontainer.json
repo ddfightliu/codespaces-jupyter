@@ -4,8 +4,11 @@
     "cpus": 4
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "python3 -m pip install -r requirements.txt",
+  "onCreateCommand": "",
+  "updateContentCommand": "python3 -m pip install -r requirements.txt ",
   "postCreateCommand": "",
+  "postStartCommand": "",
+  "postAttachCommand": "python -m pip install --upgrade pip",
   "customizations": {
     "codespaces": {
       "openFiles": []

@@ -1,0 +1,14 @@
+{
+  "name": "codespaces-jupyter",
+  "version": "1.0.0",
+  "description": "A project for Jupyter integration with GitHub Codespaces",
+  "main": "index.js",
+  "scripts": {
+    "pipfreeze": "pip freeze > requirements.txt",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
