@@ -7,7 +7,7 @@
     "pipfreeze": "pip freeze > requirements.txt",
     "test": "echo \"Error: no test specified\" && exit 1",
     "activate": "source .venv/scripts/activate",
-    "pipreqs": "pipreqs . --force --ignore .venv --ignore .git --ignore .devcontainer --force --savepath requirements.txt",
+    "pipreqs": "pipreqs ./notebooks --force --savepath requirements.txt"
   },
   "keywords": [],
   "author": "",
