@@ -1,42 +1,38 @@
 # from pyecharts.charts import Kline
-from pyecharts.charts import Kline
+from pyecharts.charts import Kline, Bar, Grid
 from pyecharts import options as opts
 import akshare as ak
-
 
 # from pyecharts.globals import CurrentConfig,NotebookType
 # CurrentConfig.NOTEBOOK_TYPE = NotebookType.JUPYTER_LAB
 
 
-def akshare_data_to_kline(df_data):
-    """
-    Converts AKShare stock data to a format suitable for Kline chart.
-    :param data: DataFrame containing stock data with columns ['open', 'close', 'low', 'high'].
-    :return: List of lists containing stock data in the format:
-             [[open, close, low, high], [open, close, low, high], ...]
-    """
+def trans_aksdat_to_echartdat(df_data):
+    """ """
     kline_data = df_data[["开盘", "收盘", "最低", "最高"]].values.tolist()
-    xaxis_data = df_data["日期"].values.tolist()
-    return kline_data, xaxis_data
+    date = df_data["日期"].values.tolist()
+    volumn_data = df_data[["成交量"]].values.tolist()
+    value_data = df_data[["成交额"]].values.tolist()
+    return date, kline_data, volumn_data, value_data
 
 
-def draw_kline_chart(data, xaxis,yaxis_name="Price", title="Stock K-Line Chart"):
-    """
-    Draws a K-line (candlestick) chart using pyecharts.
-    :param data: List of lists containing stock data in the format:
-                 [[open, close, low, high], [open, close, low, high], ...]
-    :param title: Title of the chart.
-    :return: A Kline chart object.
-    """
+def draw_kline(
+    data, xaxis, yaxis_name="Price", title="Stock K-Line Chart", markline=None
+):
+    """ """
     kline = Kline()
     kline.add_xaxis(xaxis).add_yaxis(
         "Stock :" + yaxis_name,
         y_axis=data,
         markline_opts=opts.MarkLineOpts(
-            data=[
-                opts.MarkLineItem(type_="max", name="Max"),
-                opts.MarkLineItem(type_="min", name="Min"),
-            ],
+            data=(
+                [
+                    opts.MarkLineItem(type_="max", name="Max"),
+                    opts.MarkLineItem(type_="min", name="Min"),
+                ]
+                if markline
+                else None
+            ),
         ),
     ).set_global_opts(
         title_opts=opts.TitleOpts(title=title),
@@ -45,30 +41,64 @@ def draw_kline_chart(data, xaxis,yaxis_name="Price", title="Stock K-Line Chart")
             type_="value",
             is_scale=True,
         ),
-        datazoom_opts=[opts.DataZoomOpts(type_='inside'), opts.DataZoomOpts()],
+        datazoom_opts=[opts.DataZoomOpts(type_="inside"), opts.DataZoomOpts()],
         tooltip_opts=opts.TooltipOpts(trigger="axis", axis_pointer_type="cross"),
     )
     return kline
+
+
+def draw_bar(volumn_data, date):
+    bar = Bar()
+    bar.add_xaxis(date).add_yaxis("成交量", volumn_data).set_global_opts(
+        xaxis_opts=opts.AxisOpts(type_="category", is_scale=True),
+        yaxis_opts=opts.AxisOpts(
+            type_="value",
+            is_scale=True,
+        ),
+        datazoom_opts=[opts.DataZoomOpts(type_="inside"), opts.DataZoomOpts()],
+        tooltip_opts=opts.TooltipOpts(trigger="axis", axis_pointer_type="cross"),
+    )
+    return bar
 
 
 class kchartDict(dict):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def getData(self, symbol, **kwargs):
-        self[symbol] = ak.stock_zh_a_hist(
-            symbol, **kwargs
-        )
+    def getData(self, symbol, period="daily", adjust="qfq", **kwargs):
+        self[symbol] = ak.stock_zh_a_hist(symbol, period, adjust, **kwargs)
         return self[symbol]
-    
+
     def plot_aks(self, symbol, period="daily", adjust="qfq", **kwargs):
         if symbol not in self.keys():
-            self.getData(
-                symbol, period=period, adjust=adjust, **kwargs
-            )
-        kline=draw_kline_chart(
-            *akshare_data_to_kline(self[symbol]),symbol,
-            title="stock " + symbol + " Kline Chart"
+            self.getData(symbol, period, adjust, **kwargs)
+        date, kline_data, volumn_data, value_data = trans_aksdat_to_echartdat(
+            self[symbol]
         )
-        kline.render()
-        return kline
+
+        grid = Grid(init_opts=opts.InitOpts(width="1200px", height="600px"))
+
+        kline = draw_kline(
+            kline_data, date, symbol, title="stock " + symbol + " Kline Chart"
+        )
+
+        volumn_bar = draw_bar(volumn_data, date)
+
+        grid.add(kline, grid_opts=opts.GridOpts(pos_bottom="70%"))
+        grid.add(
+            volumn_bar,
+            grid_opts=opts.GridOpts(
+                pos_top="30%",
+            ),
+            xaxis_opts=opts.AxisOpts(
+                type_="category", axislabel_opts=opts.LabelOpts(rotate=0)
+            ),
+        )
+
+        volumn_bar.set_series_opts(
+            label_opts=opts.LabelOpts(is_show=False),
+            xaxis_index=[0, 1],
+        )
+
+        grid.render()
+        return grid
