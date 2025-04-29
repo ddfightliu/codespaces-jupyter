@@ -4,6 +4,7 @@
   "description": "A project for Jupyter integration with GitHub Codespaces",
   "main": "index.js",
   "scripts": {
+    "install": "pip install -r requirements.txt",
     "pipfreeze": "pip freeze > requirements.txt",
     "test": "echo \"Error: no test specified\" && exit 1",
     "activate": "source .venv/scripts/activate",
