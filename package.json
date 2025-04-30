@@ -4,11 +4,10 @@
   "description": "A project for Jupyter integration with GitHub Codespaces",
   "main": "index.js",
   "scripts": {
+    "init": "python -m venv .venv && .venv/bin/python -m pip install --upgrade pip && source .venv/bin/activate && pip install -r requirements.txt",
     "install": "pip install -r requirements.txt",
-    "pipfreeze": "pip freeze > requirements.txt",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "activate": "source .venv/scripts/activate",
-    "pipreqs": "pipreqs ./notebooks --force --savepath requirements.txt"
+    "freeze": "pip freeze > requirements.txt",
+    "activate": ".venv/scripts/activate"
   },
   "keywords": [],
   "author": "",
