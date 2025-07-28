@@ -7,9 +7,9 @@
   "initializeCommand": "",
   "onCreateCommand": " ",
   "updateContentCommand": "",
-  "postCreateCommand": "",
+  "postCreateCommand": "python -m venv .venv | . .venv/bin/activate | pip install --upgrade pip | pip install -r requirements.txt ",
   "postStartCommand": "",
-  "postAttachCommand": "python -m venv .venv | . .venv/bin/activate | pip install --upgrade pip | pip install -r requirements.txt ",
+  "postAttachCommand": "",
   "customizations": {
     "codespaces": {
       "openFiles": []
