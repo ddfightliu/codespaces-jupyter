@@ -4,11 +4,12 @@
     "cpus": 4
   },
   "waitFor": "onCreateCommand",
-  "onCreateCommand": "",
-  "updateContentCommand": "python3 -m pip install -r requirements.txt ",
+  "initializeCommand": "",
+  "onCreateCommand": "python -m venv .venv | . .venv/bin/activate | python3 -m pip install -r requirements.txt | python -m pip install --upgrade pip ",
+  "updateContentCommand": "",
   "postCreateCommand": "",
   "postStartCommand": "",
-  "postAttachCommand": "python -m pip install --upgrade pip",
+  "postAttachCommand": "",
   "customizations": {
     "codespaces": {
       "openFiles": []
